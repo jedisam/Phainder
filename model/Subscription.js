@@ -1,11 +1,6 @@
-const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
-  name: {
-    type: [String],
-    required: [true, 'Subscription name is required'],
-  },
   subscriptionList: [
     {
       name: {

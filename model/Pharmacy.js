@@ -35,8 +35,14 @@ const pharmaSchema = new mongoose.Schema({
     },
   },
   location: {
-    type: String,
-    required: [true, 'Location of the Pharmacy is required!'],
+    type: {
+      type: String,
+      default: 'Point',
+      enum: ['Point'],
+      address: String,
+      description: String,
+    },
+    coordinates: [Number],
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
