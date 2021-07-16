@@ -12,6 +12,6 @@ router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(getPharmasWithin);
 
-router.route('/distances/:latlng/unit/:unit').get(getDistances);
+router.route('/distances/:latlng').get(getDistances);
 
 module.exports = router;
