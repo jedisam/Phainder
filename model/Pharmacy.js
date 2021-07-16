@@ -54,6 +54,10 @@ const pharmaSchema = new mongoose.Schema({
   },
 });
 
+// Indexing
+
+pharmaSchema.index({ location: '2dsphere' });
+
 // set password changed at property
 
 pharmaSchema.pre('save', function (next) {
