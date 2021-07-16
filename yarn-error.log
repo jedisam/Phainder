@@ -1,0 +1,52 @@
+Arguments: 
+  /home/jedi/.nvm/versions/node/v14.17.1/bin/node /home/jedi/.nvm/versions/node/v14.17.1/bin/yarn add validator
+
+PATH: 
+  /home/jedi/anaconda3/bin:/home/jedi/anaconda3/condabin:/home/jedi/.nvm/versions/node/v14.17.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/home/jedi/.local/bin:/snap/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.17.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:69:26)
+
+npm manifest: 
+  {
+    "name": "shopping_list",
+    "version": "1.0.0",
+    "description": "Shopping list",
+    "main": "server.js",
+    "scripts": {
+      "client-install": "cd Client && npm install",
+      "start": "node server.js",
+      "server": "nodemon server.js",
+      "client": "npm start --prefix Client",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "author": "Yididya Samuel",
+    "license": "ISC",
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "concurrently": "^5.2.0",
+      "dotenv": "^8.6.0",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.9.13"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

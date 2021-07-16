@@ -12,11 +12,11 @@ const pharmaSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Username is required'],
   },
-  user: {
-    type: String,
-    enum: ['pharmacist', 'admin'],
-    default: 'pharmacist',
-  },
+  // user: {
+  //   type: String,
+  //   enum: ['pharmacist', 'admin'],
+  //   default: 'pharmacist',
+  // },
   password: {
     type: String,
     required: [true, 'Password is required'],
@@ -34,6 +34,8 @@ const pharmaSchema = new mongoose.Schema({
       message: 'Passwords dont match',
     },
   },
+  lat: { type: String },
+  lon: { type: String },
   location: {
     type: {
       type: String,
@@ -57,6 +59,15 @@ const pharmaSchema = new mongoose.Schema({
 // Indexing
 
 pharmaSchema.index({ location: '2dsphere' });
+
+pharmaSchema.pre('save', function (next) {
+  this.location = {
+    type: 'Point',
+    coordinates: [this.lat, this.lon],
+  };
+
+  next();
+});
 
 // set password changed at property
 
