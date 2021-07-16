@@ -46,6 +46,12 @@ const pharmaSchema = new mongoose.Schema({
     },
     coordinates: [Number],
   },
+  medications: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Medication',
+    },
+  ],
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -90,6 +96,12 @@ pharmaSchema.pre('save', async function (next) {
 });
 
 // query middleware
+pharmaSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } });
+  next();
+});
+
 pharmaSchema.pre(/^find/, function (next) {
   // this points to the current query
   this.find({ active: { $ne: false } });
