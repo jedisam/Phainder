@@ -1,5 +1,8 @@
 const express = require('express');
-const { getPharmasWithin } = require('../controllers/userController');
+const {
+  getPharmasWithin,
+  getDistances,
+} = require('../controllers/userController');
 const { protect, restrictTo } = require('../controllers/authController');
 // const reviewRouter = require('./reviewRoute');
 
