@@ -1,21 +1,59 @@
 const express = require('express');
 const {
-  getPharmasWithin,
-  getDistances,
+  getUser,
+  getAllUsers,
+  createUser,
+  deleteUser,
+  updateUser,
+  updateMe,
+  deleteMe,
+  getMe,
+  // uploadUserPhoto,
+  // resizeUserPhoto,
 } = require('../../controllers/userController');
-const { protect, restrictTo } = require('../../controllers/authController');
+const {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+  protect,
+  updatePassword,
+  restrictTo,
+  logout,
+} = require('../../controllers/authController');
+
+
+// const { protect, restrictTo } = require('../../controllers/authController');
 // const reviewRouter = require('./reviewRoute');
 
 const router = express.Router();
 
 router.route('/').get((req, res, next) => {
-  res.send('<h1>USER ROUTE</h1>')
+  console.log('Got Here')
+  return res.send('<h1>Hbloo</h1>')
 })
 
-router
-  .route('/tours-within/:distance/center/:latlng/unit/:unit')
-  .get(getPharmasWithin);
+router.post('/signup', signup);
+router.post('/login', login);
+router.get('/logout', logout);
 
-router.route('/distances/:latlng').get(getDistances);
+
+router.post('/forgotPassword', forgotPassword);
+router.get('/resetPassword/:token', resetPassword);
+
+
+router.use(protect);
+
+router.get('/me', getMe, getUser);
+router.patch('/updateMyPassword', updatePassword);
+// router.patch('/updateMe', uploadUserPhoto, resizeUserPhoto, updateMe);
+router.delete('/deleteMe', deleteMe);
+
+router.use(restrictTo('admin'));
+
+router.route('/').get(getAllUsers).post(createUser);
+router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
+
 
 module.exports = router;

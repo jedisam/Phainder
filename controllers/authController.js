@@ -14,16 +14,20 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
+  // COOKIE OPTION
+  /*
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-  };
+  };  
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
   console.log('Cookie sent');
+  */
+
   user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
@@ -36,9 +40,6 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
-  await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, res);
 });
 
@@ -126,7 +127,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    //roles ['admin', 'lead-guide']
+    //roles ['admin', 'pharmacist', 'user']
     if (!roles.includes(req.user.role))
       return next(
         new AppError('You do not have permission to perform this action!', 403)
