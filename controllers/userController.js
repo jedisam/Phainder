@@ -1,6 +1,23 @@
 const Pharmas = require('../model/Pharmacy');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const User = require('../model/User')
+
+
+exports.getAllUsers = () =>
+  catchAsync(async (req, res, next) => {
+    const doc = await User.find();
+    res.status(200).json({
+      status: 'success',
+      results: doc.length,
+      data: {
+        data: doc,
+      },
+    });
+  });
+
+
+
 
 ///Pharmas-within/:distance/center/:latlng
 

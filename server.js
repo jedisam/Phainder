@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { getAllUsers } = require('./controllers/userController');
 require('dotenv/config');
-const Lists = require('./routes/api/lists');
+const Users = require('./routes/api/userRoute');
 
 const app = express();
 
@@ -18,7 +19,9 @@ app.get('/', (req, res) => {
   res.send('Haloo');
 });
 
-app.use('/api/lists', Lists);
+app.use('/users/', getAllUsers)
+
+// app.use('/api/users', Users);
 
 const PORT = process.env.PORT || 8000;
 
