@@ -79,7 +79,10 @@ pharmaSchema.pre(/^find/, function (next) {
 
 pharmaSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: { $ne: false } });
+  this.populate({
+    path: 'medications',
+    select: 'name quantity',
+  });
   next();
 });
 
