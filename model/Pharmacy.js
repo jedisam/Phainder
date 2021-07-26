@@ -8,31 +8,14 @@ const pharmaSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Name of the Pharmacy is required'],
   },
-  username: {
-    type: String,
-    required: [true, 'Username is required'],
+
+  openingHour: {
+    type: Date,
+    required: [true, 'Opening Hour of the Pharmacy is required'],
   },
-  // user: {
-  //   type: String,
-  //   enum: ['pharmacist', 'admin'],
-  //   default: 'pharmacist',
-  // },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 8,
-    select: false,
-  },
-  confirmPassword: {
-    type: String,
-    required: [true, 'confirmation required'],
-    // works on create or Save
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords dont match',
-    },
+  closingHour: {
+    type: Date,
+    required: [true, 'Closing Hour is Required'],
   },
   lat: { type: String },
   lon: { type: String },
@@ -52,14 +35,6 @@ const pharmaSchema = new mongoose.Schema({
       ref: 'Medication',
     },
   ],
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
 });
 
 // Indexing
