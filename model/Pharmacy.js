@@ -29,12 +29,12 @@ const pharmaSchema = new mongoose.Schema({
     },
     coordinates: [Number],
   },
-  medications: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Medication',
-    },
-  ],
+  // medications: [
+  //   {
+  //     type: mongoose.Schema.ObjectId,
+  //     ref: 'Medication',
+  //   },
+  // ],
 });
 
 // Indexing
@@ -77,14 +77,14 @@ pharmaSchema.pre(/^find/, function (next) {
   next();
 });
 
-pharmaSchema.pre(/^find/, function (next) {
-  // this points to the current query
-  this.populate({
-    path: 'medications',
-    select: 'name quantity',
-  });
-  next();
-});
+// pharmaSchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.populate({
+//     path: 'medications',
+//     select: 'name quantity',
+//   });
+//   next();
+// });
 
 // compare for passwords
 pharmaSchema.methods.correctPassword = async function (

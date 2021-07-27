@@ -21,5 +21,14 @@ const medication = new mongoose.Schema({
   },
 });
 
+medication.pre(/^find/, function (next) {
+  // this points to the current query
+  this.populate({
+    path: 'pharmacy',
+    select: 'name location',
+  });
+  next();
+});
+
 const Medication = mongoose.model('Medication', medication);
 module.exports = Medication;
