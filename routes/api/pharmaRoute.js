@@ -3,15 +3,21 @@ const express = require('express');
 const {
   getPharmasWithin,
   getDistances,
-  getPharmas,
-  createPharmacy
+  getAllPharmas,
+  createPharmacy,
+  getPharma
+  updatePharma,
 } = require('../../controllers/pharmaController');
 
-const { protect } = require('../../controllers/authController');
+const { protect, restrictTo } = require('../../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(getPharmas).post(protect, createPharmacy);
+router.route('/').get(getAllPharmas).post(protect, createPharmacy);
+router
+  .route('/:id')
+  .get(getPharma)
+  .patch(protect, restrictTo('admin', 'pharmacist'), updatePharma).delete(protect, restrictTo('admin', 'pharmacist'), deletePharma);
 
 router.route('/pharmas-within/:distance/center/:latlng').get(getPharmasWithin);
 

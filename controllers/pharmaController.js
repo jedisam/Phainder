@@ -4,7 +4,7 @@ const Medication = require('../model/Medication');
 
 ///Pharmas-within/:distance/center/:latlng
 
-exports.getPharmas = catchAsync(async (req, res, next) => {
+exports.getAllPharmas = catchAsync(async (req, res, next) => {
   const pharmas = await Pharmas.find();
   res.status(200).json({
     status: 'success',
@@ -12,6 +12,50 @@ exports.getPharmas = catchAsync(async (req, res, next) => {
     data: {
       data: pharmas,
     },
+  });
+});
+
+exports.getPharma = catchAsync(async (req, res, next) => {
+  let pharma = await Pharmas.findById(req.params.id);
+  if (!pharma) {
+    return next(new AppError('No Pharmacy Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: pharma,
+    },
+  });
+});
+
+exports.updatePharma = catchAsync(async (req, res, next) => {
+  const updatedPharma = await Pharma.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!updatedPharma) {
+    return next(new AppError('No Pharmacy Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: updatedPharma,
+    },
+  });
+});
+
+exports.deletePharma = catchAsync(async (req, res, next) => {
+  const pharma = await Pharma.findByIdAndDelete(req.params.id);
+  if (!pharma) {
+    return next(new AppError('No doc Found with the given ID', 404));
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });
 
