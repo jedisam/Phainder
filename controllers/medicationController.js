@@ -1,9 +1,69 @@
 const catchAsync = require('../utils/catchAsync');
 const Pharmas = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
-const Medication = require('../model/Medication');
-
 
 exports.addMedication = catchAsync(async (req, res, next) => {
-    return
-})
+  const newMedication = await Medication.create(req.body);
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      data: newMedication,
+    },
+  });
+});
+
+exports.deleteMedication = catchAsync(async (req, res, next) => {
+  const med = await Medication.findByIdAndDelete(req.params.id);
+  if (!pharma) {
+    return next(new AppError('No Medication Found with the given ID', 404));
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
+exports.updateMedication = catchAsync(async (req, res, next) => {
+  const updatedMedication = await Medication.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!updatedMedication) {
+    return next(new AppError('No Pharmacy Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: updatedMedication,
+    },
+  });
+});
+
+exports.getMedication = catchAsync(async (req, res, next) => {
+  let med = await Medication.findById(req.params.id);
+  if (!med) {
+    return next(new AppError('No Medication Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: med,
+    },
+  });
+});
+
+exports.getAllMedication = catchAsync(async (req, res, next) => {
+  const medications = await Medication.find();
+  res.status(200).json({
+    status: 'success',
+    results: medications.length,
+    data: {
+      data: medications,
+    },
+  });
+});

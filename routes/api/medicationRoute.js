@@ -1,15 +1,23 @@
 const express = require('express');
 const {
- addMedication
+  addMedication,
+  getAllMedications,
+  getMedication,
+  getMedication,
+  updateMedication,
+  deleteMedication,
 } = require('../../controllers/medicationController');
-const { protect } = require('../../controllers/authController');
-
+const { protect, restrictTo } = require('../../controllers/authController');
 
 const router = express.Router();
 
-router.use(protect)
+router.use(protect);
 
-router.route('/').post(addMedication);
-
+router.route('/').get(getAllMedications).post(protect, addMedication);
+router
+  .route('/:id')
+  .get(getMedication)
+  .patch(protect, restrictTo('admin', 'pharmacist'), updateMedication)
+  .delete(protect, restrictTo('admin', 'pharmacist'), deleteMedication);
 
 module.exports = router;
