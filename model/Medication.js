@@ -15,6 +15,11 @@ const medication = new mongoose.Schema({
     required: true,
     default: 1,
   },
+  // user: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'User',
+  //   required: [true, 'Medication must belong to a user'],
+  // },
   price: {
     type: Number,
     required: [true, 'Price of the medication is required!'],

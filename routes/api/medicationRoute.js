@@ -6,14 +6,18 @@ const {
   getMedication,
   updateMedication,
   deleteMedication,
+  setPharmaId,
 } = require('../../controllers/medicationController');
 const { protect, restrictTo } = require('../../controllers/authController');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.use(protect);
 
-router.route('/').get(getAllMedications).post(protect, addMedication);
+router
+  .route('/')
+  .get(getAllMedications)
+  .post(protect, setPharmaId, addMedication);
 router
   .route('/:id')
   .get(getMedication)

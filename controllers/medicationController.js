@@ -2,6 +2,12 @@ const catchAsync = require('../utils/catchAsync');
 const Pharmas = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
 
+exports.setPharmaId = (req, res, next) => {
+  // Allow nested route
+  if (!req.body.pharmacy) req.body.pharmacy = req.params.pharmaId;
+  next();
+};
+
 exports.addMedication = catchAsync(async (req, res, next) => {
   const newMedication = await Medication.create(req.body);
 
@@ -58,7 +64,9 @@ exports.getMedication = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllMedication = catchAsync(async (req, res, next) => {
-  const medications = await Medication.find();
+  let filter = {};
+  if (req.params.pharmaId) filter = { pharmacy: req.params.pharmaId };
+  const medications = await Medication.find(filter);
   res.status(200).json({
     status: 'success',
     results: medications.length,
