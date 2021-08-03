@@ -1,11 +1,11 @@
 const catchAsync = require('../utils/catchAsync');
-const Pharmas = require('../model/Pharmacy');
+const Pharma = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
 
 ///Pharmas-within/:distance/center/:latlng
 
 exports.getAllPharmas = catchAsync(async (req, res, next) => {
-  const pharmas = await Pharmas.find();
+  const pharmas = await Pharma.find();
   res.status(200).json({
     status: 'success',
     results: pharmas.length,
@@ -16,7 +16,7 @@ exports.getAllPharmas = catchAsync(async (req, res, next) => {
 });
 
 exports.getPharma = catchAsync(async (req, res, next) => {
-  let pharma = await Pharmas.findById(req.params.id);
+  let pharma = await Pharma.findById(req.params.id);
   if (!pharma) {
     return next(new AppError('No Pharmacy Found with the given ID', 404));
   }
@@ -75,15 +75,19 @@ exports.getPharmasWithin = catchAsync(async (req, res, next) => {
   const [lat, lng] = latlng.split(',');
 
   const radius = distance / 6378.1;
-
+  console.log('Radius: ', radius);
   if (!lat || !lng)
     return new AppError(
       'Please provide latitiude and longitude in the format lat, lng',
       400
     );
 
-  const pharmas = await Pharmas.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  const pharmas = await Pharma.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: [[lat, lng], radius],
+      },
+    },
   });
 
   res.status(200).json({
@@ -105,7 +109,7 @@ exports.getDistances = catchAsync(async (req, res, next) => {
       400
     );
 
-  const distances = Pharmas.aggregate([
+  const distances = Pharma.aggregate([
     {
       $geoNear: {
         near: {

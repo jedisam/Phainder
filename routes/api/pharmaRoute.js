@@ -6,6 +6,7 @@ const {
   getAllPharmas,
   createPharmacy,
   getPharma,
+  deletePharma,
   updatePharma,
 } = require('../../controllers/pharmaController');
 const medicationRouter = require('./medicationRoute');

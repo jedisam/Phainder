@@ -3,7 +3,6 @@ const {
   addMedication,
   getAllMedications,
   getMedication,
-  getMedication,
   updateMedication,
   deleteMedication,
   setPharmaId,

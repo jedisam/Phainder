@@ -71,9 +71,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
   }
+  // else if (req.cookies.jwt) {
+  //   token = req.cookies.jwt;
+  // }
   if (!token) return next(new AppError('Please Log in to get access', 401));
   //2) verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -209,7 +210,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     return next(new AppError('Your Current Password is Incorrect!', 401));
   // 4) if so update the password
   user.password = req.body.password;
-  user.confirmPassword = req.body.passwordConfirm;
+  user.confirmPassword = req.body.confirmPassword;
   await user.save();
   // 3) log user in, send jwt
   createSendToken(user, 200, res);

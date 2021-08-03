@@ -63,7 +63,7 @@ exports.getMedication = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllMedication = catchAsync(async (req, res, next) => {
+exports.getAllMedications = catchAsync(async (req, res, next) => {
   let filter = {};
   if (req.params.pharmaId) filter = { pharmacy: req.params.pharmaId };
   const medications = await Medication.find(filter);

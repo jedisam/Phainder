@@ -1,24 +1,30 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const geocoder = require('../utils/geocoder');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const pharmaSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
     required: [true, 'Name of the Pharmacy is required'],
   },
 
   openingHour: {
-    type: Date,
+    type: String,
     required: [true, 'Opening Hour of the Pharmacy is required'],
   },
   closingHour: {
-    type: Date,
+    type: String,
     required: [true, 'Closing Hour is Required'],
   },
   lat: { type: String },
   lon: { type: String },
+  address: {
+    type: String,
+    required: [true, 'Address of the pharmacy is required!'],
+  },
   location: {
     type: {
       type: String,
@@ -29,6 +35,10 @@ const pharmaSchema = new mongoose.Schema({
     },
     coordinates: [Number],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   // medications: [
   //   {
   //     type: mongoose.Schema.ObjectId,
@@ -37,18 +47,31 @@ const pharmaSchema = new mongoose.Schema({
   // ],
 });
 
-// Indexing
 
-pharmaSchema.index({ location: '2dsphere' });
 
 pharmaSchema.pre('save', function (next) {
   this.location = {
     type: 'Point',
     coordinates: [this.lat, this.lon],
   };
+  this.lat = undefined;
+  this.lon = undefined;
 
   next();
 });
+
+// Indexing
+
+pharmaSchema.index({ location: '2dsphere' });
+// Geocode and create location
+// pharmaSchema.pre('save', async function (next) {
+//   const loc = await geocoder.geocode(this.address);
+//   this.location = {
+//     type: 'Point',
+//     coordinates: [loc[0].longtiude, loc[0].latitude],
+//   };
+//   console.log(loc);
+// });
 
 // set password changed at property
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv/config');
 const Users = require('./routes/api/userRoute');
 const Pharmas = require('./routes/api/pharmaRoute');
@@ -9,6 +10,10 @@ const app = express();
 // Bodyparser middleware
 app.use(express.json());
 
+// enable cors
+app.use(cors());
+
+// Connect to DataBase
 const uri = process.env.db;
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -19,13 +24,16 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log(`Succsessfully connected to DB`);
 });
+
+// Different routes
 app.get('/', (req, res) => {
   res.send('Haloo');
 });
-
 app.use('/api/users', Users);
 app.use('/api/pharmas', Pharmas);
 app.use('/api/medications', Pharmas);
+
+
 
 const PORT = process.env.PORT || 8000;
 

@@ -1,8 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const User = require('../model/User')
-
-
+const User = require('../model/User');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -13,47 +11,44 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const doc = await User.find();
-    res.status(200).json({
-      status: 'success',
-      results: doc.length,
-      data: {
-        data: doc,
-      },
-    });
+  const doc = await User.find();
+  res.status(200).json({
+    status: 'success',
+    results: doc.length,
+    data: {
+      data: doc,
+    },
   });
+});
 
-
-  exports.getUser = catchAsync(async (req, res, next) => {
-    let user = User.findById(req.params.id);
-    if (!user) {
-      return next(new AppError('No Document Found with the given ID', 404));
-    }
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: user,
-      },
-    });
+exports.getUser = catchAsync(async (req, res, next) => {
+  let user = await User.findById(req.params.id);
+  if (!user) {
+    return next(new AppError('No Document Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: user,
+    },
   });
+});
 
-
-  exports.updateUser = catchAsync(async (req, res, next) => {
-    const doc = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!doc) {
-      return next(new AppError('No Document Found with the given ID', 404));
-    }
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc,
-      },
-    });
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const doc = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
   });
-
+  if (!doc) {
+    return next(new AppError('No Document Found with the given ID', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc,
+    },
+  });
+});
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
@@ -98,14 +93,13 @@ exports.createUser = (req, res) => {
   });
 };
 
-
 exports.deleteUser = catchAsync(async (req, res, next) => {
-    const doc = await User.findByIdAndDelete(req.params.id);
-    if (!doc) {
-      return next(new AppError('No doc Found with the given ID', 404));
-    }
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
+  const doc = await User.findByIdAndDelete(req.params.id);
+  if (!doc) {
+    return next(new AppError('No doc Found with the given ID', 404));
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
+});

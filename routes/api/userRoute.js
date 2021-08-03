@@ -22,25 +22,22 @@ const {
   logout,
 } = require('../../controllers/authController');
 
-
 // const { protect, restrictTo } = require('../../controllers/authController');
 // const reviewRouter = require('./reviewRoute');
 
 const router = express.Router();
 
-router.route('/').get((req, res, next) => {
-  console.log('Got Here')
-  return res.send('<h1>Hbloo</h1>')
-})
+// router.route('/').get((req, res, next) => {
+//   console.log('Got Here')
+//   return res.send('<h1>Hbloo</h1>')
+// })
 
 router.post('/signup', signup);
 router.post('/login', login);
 router.get('/logout', logout);
 
-
 router.post('/forgotPassword', forgotPassword);
 router.get('/resetPassword/:token', resetPassword);
-
 
 router.use(protect);
 
@@ -53,7 +50,5 @@ router.use(restrictTo('admin'));
 
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
-
-
 
 module.exports = router;
