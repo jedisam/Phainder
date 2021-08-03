@@ -109,25 +109,27 @@ exports.getDistances = catchAsync(async (req, res, next) => {
       400
     );
 
-  const distances = Pharma.aggregate([
+  const distances = await Pharma.aggregate([
     {
       $geoNear: {
         near: {
           type: 'Point',
-          coordinates: [lng * 1, lat * 1],
+          coordinates: [lat * 1, lng * 1],
         },
         distanceField: 'distance',
         distanceMultiplier: 0.001,
       },
+    },
+    {
       $project: {
         distance: 1,
         name: 1,
+        address: 1,
       },
     },
   ]);
   res.status(200).json({
     status: 'success',
-    results: distances.length,
     data: {
       data: distances,
     },
