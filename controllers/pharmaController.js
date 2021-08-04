@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 const Pharma = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
+const AppError = require('../utils/appError');
 
 ///Pharmas-within/:distance/center/:latlng
 
@@ -16,9 +17,9 @@ exports.getAllPharmas = catchAsync(async (req, res, next) => {
 });
 
 exports.getPharma = catchAsync(async (req, res, next) => {
-  let pharma = await Pharma.findById(req.params.id);
+  let pharma = await Pharma.findById(req.params.id).populate('medications');
   if (!pharma) {
-    return next(new AppError('No Pharmacy Found with the given ID', 404));
+    return next(new AppErroror('No Pharmacy Found with the given ID', 404));
   }
   res.status(200).json({
     status: 'success',

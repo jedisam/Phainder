@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv/config');
 const Users = require('./routes/api/userRoute');
 const Pharmas = require('./routes/api/pharmaRoute');
+const Medications = require('./routes/api/medicationRoute');
 
 const app = express();
 
@@ -31,9 +32,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/users', Users);
 app.use('/api/pharmas', Pharmas);
-app.use('/api/medications', Pharmas);
-
-
+app.use('/api/medications', Medications);
 
 const PORT = process.env.PORT || 8000;
 

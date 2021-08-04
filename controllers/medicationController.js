@@ -1,5 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
-const Pharmas = require('../model/Pharmacy');
+const Pharma = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
 
 exports.setPharmaId = (req, res, next) => {

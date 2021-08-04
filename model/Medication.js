@@ -8,12 +8,12 @@ const medication = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
+    required: [true, 'Name of the medication is required!'],
   },
-  quantity: {
-    type: Number,
-    required: true,
-    default: 1,
+  available: {
+    type: Boolean,
+    // required: true,
+    default: true,
   },
   // user: {
   //   type: mongoose.Schema.ObjectId,
@@ -26,11 +26,12 @@ const medication = new mongoose.Schema({
   },
 });
 
+
 medication.pre(/^find/, function (next) {
   // this points to the current query
   this.populate({
     path: 'pharmacy',
-    select: 'name location',
+    select: 'name',
   });
   next();
 });

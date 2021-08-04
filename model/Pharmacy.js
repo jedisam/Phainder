@@ -4,50 +4,56 @@ const geocoder = require('../utils/geocoder');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const pharmaSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    unique: true,
-    required: [true, 'Name of the Pharmacy is required'],
-  },
-
-  openingHour: {
-    type: String,
-    required: [true, 'Opening Hour of the Pharmacy is required'],
-  },
-  closingHour: {
-    type: String,
-    required: [true, 'Closing Hour is Required'],
-  },
-  lat: { type: String },
-  lon: { type: String },
-  address: {
-    type: String,
-    required: [true, 'Address of the pharmacy is required!'],
-  },
-  location: {
-    type: {
+const pharmaSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
-      default: 'Point',
-      enum: ['Point'],
-      address: String,
-      description: String,
+      unique: true,
+      required: [true, 'Name of the Pharmacy is required'],
     },
-    coordinates: [Number],
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  // medications: [
-  //   {
-  //     type: mongoose.Schema.ObjectId,
-  //     ref: 'Medication',
-  //   },
-  // ],
-});
 
+    openingHour: {
+      type: String,
+      required: [true, 'Opening Hour of the Pharmacy is required'],
+    },
+    closingHour: {
+      type: String,
+      required: [true, 'Closing Hour is Required'],
+    },
+    lat: { type: String },
+    lon: { type: String },
+    address: {
+      type: String,
+      required: [true, 'Address of the pharmacy is required!'],
+    },
+    location: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+        address: String,
+        description: String,
+      },
+      coordinates: [Number],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
 
+    // medications: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Medication',
+    //   },
+    // ],
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+
+  );
 
 pharmaSchema.pre('save', function (next) {
   this.location = {
@@ -58,6 +64,13 @@ pharmaSchema.pre('save', function (next) {
   this.lon = undefined;
 
   next();
+});
+
+// Virtual Populate
+pharmaSchema.virtual('medications', {
+  ref: 'Medication',
+  foreignField: 'pharmacy',
+  localField: '_id',
 });
 
 // Indexing
