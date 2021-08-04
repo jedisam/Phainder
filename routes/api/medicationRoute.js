@@ -20,7 +20,12 @@ router
 router
   .route('/:id')
   .get(getMedication)
-  .patch(protect, restrictTo('admin', 'pharmacist'), updateMedication)
+  .patch(
+    protect,
+    restrictTo('admin', 'pharmacist'),
+    setPharmaId,
+    updateMedication
+  )
   .delete(protect, restrictTo('admin', 'pharmacist'), deleteMedication);
 
 module.exports = router;

@@ -17,7 +17,7 @@ exports.getAllPharmas = catchAsync(async (req, res, next) => {
 });
 
 exports.getPharma = catchAsync(async (req, res, next) => {
-  let pharma = await Pharma.findById(req.params.id).populate('medications');
+  let pharma = await Pharma.findById(req.params.id);
   if (!pharma) {
     return next(new AppErroror('No Pharmacy Found with the given ID', 404));
   }

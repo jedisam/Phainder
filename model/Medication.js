@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const medication = new mongoose.Schema({
+const medicationSchema = new mongoose.Schema({
   pharmacy: {
     type: mongoose.Schema.ObjectId,
     ref: 'Pharmacy',
@@ -27,7 +27,16 @@ const medication = new mongoose.Schema({
 });
 
 
-medication.pre(/^find/, function (next) {
+// query middleware
+medicationSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ available: { $ne: false } });
+  next();
+});
+
+
+
+medicationSchema.pre(/^find/, function (next) {
   // this points to the current query
   this.populate({
     path: 'pharmacy',
@@ -36,5 +45,5 @@ medication.pre(/^find/, function (next) {
   next();
 });
 
-const Medication = mongoose.model('Medication', medication);
+const Medication = mongoose.model('Medication', medicationSchema);
 module.exports = Medication;

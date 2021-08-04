@@ -5,6 +5,7 @@ require('dotenv/config');
 const Users = require('./routes/api/userRoute');
 const Pharmas = require('./routes/api/pharmaRoute');
 const Medications = require('./routes/api/medicationRoute');
+const Prescription = require('./routes/api/prescriptionRoute');
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.get('/', (req, res) => {
 app.use('/api/users', Users);
 app.use('/api/pharmas', Pharmas);
 app.use('/api/medications', Medications);
+app.use('/api/prescriptions', Prescription);
+
 
 const PORT = process.env.PORT || 8000;
 

@@ -22,15 +22,14 @@ const {
   logout,
 } = require('../../controllers/authController');
 
+const prescriptionRoute = require('./prescriptionRoute');
+
 // const { protect, restrictTo } = require('../../controllers/authController');
 // const reviewRouter = require('./reviewRoute');
 
 const router = express.Router();
 
-// router.route('/').get((req, res, next) => {
-//   console.log('Got Here')
-//   return res.send('<h1>Hbloo</h1>')
-// })
+// router.use('/:userId/prescriptions', prescriptionRoute);
 
 router.post('/signup', signup);
 router.post('/login', login);
