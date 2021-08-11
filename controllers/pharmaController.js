@@ -177,10 +177,10 @@ exports.getMedPharmaDistances = catchAsync(async (req, res, next) => {
       },
     },
     {
-      $unwind: '$AggMedication',
+      $unwind: '$Medication',
     },
     {
-      $match: { 'AggMedication.name': drug },
+      $match: { 'Medication.name': drug },
     },
   ]);
   res.status(200).json({
