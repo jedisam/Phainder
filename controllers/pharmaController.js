@@ -136,3 +136,57 @@ exports.getDistances = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getMedPharmaDistances = catchAsync(async (req, res, next) => {
+  const { latlng } = req.params;
+  const [lat, lng] = latlng.split(',');
+  const { drug } = req.params;
+  // const lat = 8.998992;
+  // const lng = 38.807285;
+
+  if (!lat || !lng)
+    return new AppError(
+      'Please provide latitiude and longitude in the format lat, lng',
+      400
+    );
+
+  const distances = await Pharma.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [lat * 1, lng * 1],
+        },
+        distanceField: 'distance',
+        distanceMultiplier: 0.001,
+      },
+    },
+    {
+      $project: {
+        distance: 1,
+        name: 1,
+        address: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'medications',
+        localField: '_id',
+        foreignField: 'pharmacy',
+        as: 'AggMedication',
+      },
+    },
+    {
+      $unwind: '$AggMedication',
+    },
+    {
+      $match: { 'AggMedication.name': drug },
+    },
+  ]);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: distances,
+    },
+  });
+});

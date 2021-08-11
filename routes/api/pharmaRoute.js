@@ -8,6 +8,7 @@ const {
   getPharma,
   deletePharma,
   updatePharma,
+  getMedPharmaDistances,
 } = require('../../controllers/pharmaController');
 const medicationRouter = require('./medicationRoute');
 const { protect, restrictTo } = require('../../controllers/authController');
@@ -24,6 +25,9 @@ router
   .delete(protect, restrictTo('admin', 'pharmacist'), deletePharma);
 
 router.route('/pharmas-within/:distance/center/:latlng').get(getPharmasWithin);
+router
+  .route('/pharma-med/distances/:latlng/drug/:drug')
+  .get(getMedPharmaDistances);
 
 router.route('/distances/:latlng').get(getDistances);
 
