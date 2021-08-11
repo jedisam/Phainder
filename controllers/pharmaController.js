@@ -173,7 +173,7 @@ exports.getMedPharmaDistances = catchAsync(async (req, res, next) => {
         from: 'medications',
         localField: '_id',
         foreignField: 'pharmacy',
-        as: 'AggMedication',
+        as: 'Medication',
       },
     },
     {
