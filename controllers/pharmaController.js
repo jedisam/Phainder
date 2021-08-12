@@ -182,6 +182,9 @@ exports.getMedPharmaDistances = catchAsync(async (req, res, next) => {
     {
       $match: { 'Medication.name': drug },
     },
+    {
+      $sort: { 'Medication.price': 1 }
+    }
   ]);
   res.status(200).json({
     status: 'success',
