@@ -1,75 +1,17 @@
 const catchAsync = require('../utils/catchAsync');
 const Pharma = require('../model/Pharmacy');
 const Medication = require('../model/Medication');
+const factory = require('./handleFactory.js');
 const AppError = require('../utils/appError');
 
+
+exports.getAllPharmas = factory.getAll(Pharma);
+exports.getPharma = factory.getOne(Pharma, { path: 'medications' });
+exports.updatePharma = factory.updateOne(Pharma);
+exports.deletePharma = factory.deleteOne(Pharma);
+exports.createPharmacy = factory.createOne(Pharma);
+
 ///Pharmas-within/:distance/center/:latlng
-
-exports.getAllPharmas = catchAsync(async (req, res, next) => {
-  const pharmas = await Pharma.find();
-  res.status(200).json({
-    status: 'success',
-    results: pharmas.length,
-    data: {
-      data: pharmas,
-    },
-  });
-});
-
-exports.getPharma = catchAsync(async (req, res, next) => {
-  let pharma = await Pharma.findById(req.params.id);
-  if (!pharma) {
-    return next(new AppErroror('No Pharmacy Found with the given ID', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      data: pharma,
-    },
-  });
-});
-
-exports.updatePharma = catchAsync(async (req, res, next) => {
-  const updatedPharma = await Pharma.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-  if (!updatedPharma) {
-    return next(new AppError('No Pharmacy Found with the given ID', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      data: updatedPharma,
-    },
-  });
-});
-
-exports.deletePharma = catchAsync(async (req, res, next) => {
-  const pharma = await Pharma.findByIdAndDelete(req.params.id);
-  if (!pharma) {
-    return next(new AppError('No doc Found with the given ID', 404));
-  }
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
-});
-
-exports.createPharmacy = catchAsync(async (req, res, next) => {
-  const newPharma = await Pharma.create(req.body);
-
-  res.status(201).json({
-    status: 'success',
-    data: {
-      data: newPharma,
-    },
-  });
-});
 
 exports.getPharmasWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng } = req.params;
@@ -183,8 +125,8 @@ exports.getMedPharmaDistances = catchAsync(async (req, res, next) => {
       $match: { 'Medication.name': drug },
     },
     {
-      $sort: { 'Medication.price': 1 }
-    }
+      $sort: { 'Medication.price': 1 },
+    },
   ]);
   res.status(200).json({
     status: 'success',
