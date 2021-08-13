@@ -5,13 +5,17 @@ const {
   updatePrescription,
   deletePrescription,
   getPrescription,
+  setPrescriptionUserIds,
 } = require('../../controllers/prescriptionController');
 const { protect, restrictTo } = require('../../controllers/authController');
 
 const router = express.Router();
 
 router.use(protect);
-router.route('/').get(getMyPrescriptions).post(protect, addPrescription);
+router
+  .route('/')
+  .get(getMyPrescriptions)
+  .post(protect, setPrescriptionUserIds, addPrescription);
 router.use(restrictTo('admin', 'user'));
 router
   .route('/:id')

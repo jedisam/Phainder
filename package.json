@@ -1,7 +1,7 @@
 {
-  "name": "shopping_list",
+  "name": "phainder",
   "version": "1.0.0",
-  "description": "Shopping list",
+  "description": "Pharmacy Finder",
   "main": "server.js",
   "scripts": {
     "client-install": "cd Client && npm install",
