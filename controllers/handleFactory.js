@@ -61,16 +61,16 @@ exports.getOne = (Model, populateOption) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // to allow for nested GET review on Tours
+    // to allow for nested GET Medications on Pharmas
     let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    if ( req.params.pharmaId ) filter = { pharmacy: req.params.pharmaId };
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
     const doc = await features.query;
-    // const tours = await Tour.find();
+    
     res.status(200).json({
       status: 'success',
       results: doc.length,
