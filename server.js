@@ -36,9 +36,10 @@ app.use('/api/pharmas', Pharmas);
 app.use('/api/medications', Medications);
 app.use('/api/prescriptions', Prescription);
 
-
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
+
+module.exports = app;
