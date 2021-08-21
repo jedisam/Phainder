@@ -6,6 +6,7 @@ const Users = require('./routes/api/userRoute');
 const Pharmas = require('./routes/api/pharmaRoute');
 const Medications = require('./routes/api/medicationRoute');
 const Prescription = require('./routes/api/prescriptionRoute');
+const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
@@ -35,6 +36,9 @@ app.use('/api/users', Users);
 app.use('/api/pharmas', Pharmas);
 app.use('/api/medications', Medications);
 app.use('/api/prescriptions', Prescription);
+
+//error handler
+app.use(globalErrorHandler);
 
 const PORT = process.env.PORT || 8000;
 
