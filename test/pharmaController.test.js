@@ -109,7 +109,7 @@ describe('Pharma API', () => {
         .send(pharmacy)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.message.should.be.eq('Name of the Pharmacy is required');
+          res.body.message.should.be.eq('Name of the Pharmacy is required!');
           done();
         });
     });
