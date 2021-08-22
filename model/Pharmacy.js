@@ -9,7 +9,7 @@ const pharmaSchema = new mongoose.Schema(
     name: {
       type: String,
       unique: true,
-      required: [true, 'Name of the Pharmacy is required'],
+      required: [true, 'Name of the Pharmacy is required!'],
     },
 
     openingHour: {
