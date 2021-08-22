@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix Client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 20000"
   },
   "author": "Yididya Samuel",
   "license": "ISC",
